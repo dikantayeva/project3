@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1420 580" width="1420" height="580" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif">
+<rect width="1420" height="580" fill="#ffffff"/>
+<text x="40" y="36" font-size="20" font-weight="700" fill="#0f172a">Схема базы данных: мониторинг влажности почвы</text>
+<path d="M330,126.0 L435.0,126.0 L435.0,158.0 L540,158.0" fill="none" stroke="#475569" stroke-width="2"/>
+<text x="340" y="118.0" font-size="15" font-weight="700" fill="#0f172a">1</text>
+<text x="518" y="150.0" font-size="15" font-weight="700" fill="#0f172a">N</text>
+<text x="435.0" y="114.0" font-size="13" fill="#475569" font-style="italic" text-anchor="middle">object_id</text>
+<path d="M830,126.0 L935.0,126.0 L935.0,126.0 L1040,126.0" fill="none" stroke="#475569" stroke-width="2"/>
+<text x="840" y="118.0" font-size="15" font-weight="700" fill="#0f172a">1</text>
+<text x="1018" y="118.0" font-size="15" font-weight="700" fill="#0f172a">N</text>
+<text x="935.0" y="114.0" font-size="13" fill="#475569" font-style="italic" text-anchor="middle">sensor_id</text>
+<rect x="40" y="70" width="290" height="168" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M40,110 L40,78 Q40,70 48,70 L322,70 Q330,70 330,78 L330,110 Z" fill="#1e3a8a"/>
+<text x="54" y="96" font-size="17" font-weight="700" fill="#ffffff">objects</text>
+<text x="318" y="95" font-size="12" fill="#bfdbfe" text-anchor="end">Объекты мониторинга</text>
+<rect x="50" y="117" width="28" height="18" rx="4" fill="#fef3c7"/>
+<text x="64" y="130.0" font-size="11" font-weight="700" fill="#b45309" text-anchor="middle">PK</text>
+<text x="88" y="131.0" font-size="15" fill="#0f172a">object_id</text>
+<text x="318" y="131.0" font-size="13" fill="#64748b" text-anchor="end">text *</text>
+<rect x="41" y="142" width="288" height="32" fill="#f8fafc"/>
+<text x="88" y="163.0" font-size="15" fill="#0f172a">lat</text>
+<text x="318" y="163.0" font-size="13" fill="#64748b" text-anchor="end">numeric</text>
+<text x="88" y="195.0" font-size="15" fill="#0f172a">lng</text>
+<text x="318" y="195.0" font-size="13" fill="#64748b" text-anchor="end">numeric</text>
+<rect x="41" y="206" width="288" height="32" fill="#f8fafc"/>
+<text x="88" y="227.0" font-size="15" fill="#0f172a">n_levels</text>
+<text x="318" y="227.0" font-size="13" fill="#64748b" text-anchor="end">integer</text>
+<rect x="540" y="70" width="290" height="136" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M540,110 L540,78 Q540,70 548,70 L822,70 Q830,70 830,78 L830,110 Z" fill="#1e3a8a"/>
+<text x="554" y="96" font-size="17" font-weight="700" fill="#ffffff">sensors</text>
+<text x="818" y="95" font-size="12" fill="#bfdbfe" text-anchor="end">Датчики по глубинам</text>
+<rect x="550" y="117" width="28" height="18" rx="4" fill="#fef3c7"/>
+<text x="564" y="130.0" font-size="11" font-weight="700" fill="#b45309" text-anchor="middle">PK</text>
+<text x="588" y="131.0" font-size="15" fill="#0f172a">sensor_id</text>
+<text x="818" y="131.0" font-size="13" fill="#64748b" text-anchor="end">text</text>
+<rect x="541" y="142" width="288" height="32" fill="#f8fafc"/>
+<rect x="550" y="149" width="28" height="18" rx="4" fill="#ccfbf1"/>
+<text x="564" y="162.0" font-size="11" font-weight="700" fill="#0f766e" text-anchor="middle">FK</text>
+<text x="588" y="163.0" font-size="15" fill="#0f172a">object_id</text>
+<text x="818" y="163.0" font-size="13" fill="#64748b" text-anchor="end">text</text>
+<text x="588" y="195.0" font-size="15" fill="#0f172a">depth_m</text>
+<text x="818" y="195.0" font-size="13" fill="#64748b" text-anchor="end">numeric</text>
+<rect x="1040" y="70" width="340" height="232" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M1040,110 L1040,78 Q1040,70 1048,70 L1372,70 Q1380,70 1380,78 L1380,110 Z" fill="#1e3a8a"/>
+<text x="1054" y="96" font-size="17" font-weight="700" fill="#ffffff">sensor_readings</text>
+<text x="1368" y="95" font-size="12" fill="#bfdbfe" text-anchor="end">Измерения во времени</text>
+<rect x="1050" y="117" width="28" height="18" rx="4" fill="#ccfbf1"/>
+<text x="1064" y="130.0" font-size="11" font-weight="700" fill="#0f766e" text-anchor="middle">FK</text>
+<text x="1088" y="131.0" font-size="15" fill="#0f172a">sensor_id</text>
+<text x="1368" y="131.0" font-size="13" fill="#64748b" text-anchor="end">text</text>
+<rect x="1041" y="142" width="338" height="32" fill="#f8fafc"/>
+<text x="1088" y="163.0" font-size="15" fill="#0f172a">timestamp</text>
+<text x="1368" y="163.0" font-size="13" fill="#64748b" text-anchor="end">timestamptz</text>
+<text x="1088" y="195.0" font-size="15" fill="#0f172a">w_percent</text>
+<text x="1368" y="195.0" font-size="13" fill="#64748b" text-anchor="end">numeric</text>
+<rect x="1041" y="206" width="338" height="32" fill="#f8fafc"/>
+<text x="1088" y="227.0" font-size="15" fill="#0f172a">wl_value</text>
+<text x="1368" y="227.0" font-size="13" fill="#64748b" text-anchor="end">numeric</text>
+<text x="1088" y="259.0" font-size="15" fill="#0f172a">wp_value</text>
+<text x="1368" y="259.0" font-size="13" fill="#64748b" text-anchor="end">numeric</text>
+<rect x="1041" y="270" width="338" height="32" fill="#f8fafc"/>
+<text x="1088" y="291.0" font-size="15" fill="#0f172a">il_value</text>
+<text x="1368" y="291.0" font-size="13" fill="#64748b" text-anchor="end">numeric</text>
+<rect x="40" y="380" width="290" height="136" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+<path d="M40,420 L40,388 Q40,380 48,380 L322,380 Q330,380 330,388 L330,420 Z" fill="#1e3a8a"/>
+<text x="54" y="406" font-size="17" font-weight="700" fill="#ffffff">users</text>
+<text x="318" y="405" font-size="12" fill="#bfdbfe" text-anchor="end">Пользователи и роли</text>
+<text x="88" y="441.0" font-size="15" fill="#0f172a">username</text>
+<text x="318" y="441.0" font-size="13" fill="#64748b" text-anchor="end">text</text>
+<rect x="41" y="452" width="288" height="32" fill="#f8fafc"/>
+<text x="88" y="473.0" font-size="15" fill="#0f172a">password</text>
+<text x="318" y="473.0" font-size="13" fill="#64748b" text-anchor="end">text, NULL</text>
+<text x="88" y="505.0" font-size="15" fill="#0f172a">role</text>
+<text x="318" y="505.0" font-size="13" fill="#64748b" text-anchor="end">text</text>
+<text x="400" y="390" font-size="14" fill="#475569">PK — первичный ключ, FK — внешний ключ, 1 — «один», N — «много».</text>
+<text x="400" y="416" font-size="14" fill="#475569">* Тип object_id нужно сверить с реальной базой (в objects может быть integer).</text>
+<text x="400" y="442" font-size="14" fill="#475569">Схема восстановлена по SQL-запросам в server.js; типы — «по коду».</text>
+<text x="400" y="468" font-size="14" fill="#475569">Таблица users ни с какими другими таблицами не связана.</text>
+</svg>

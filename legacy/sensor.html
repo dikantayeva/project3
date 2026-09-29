@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Moisture Dashboard MVP</title>
+    <!-- 
+        Для надежной локальной работы стили Tailwind CSS (временно) 
+        перенесены в чистый CSS, чтобы избежать ошибок CDN.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Подключение Leaflet CSS (Удален integrity для обхода локальных ошибок) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""/>
+    <style>
+        /* CSS, имитирующий Tailwind для базового макета */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc; 
+            padding: 2rem; /* p-8 */
+            min-height: 100vh;
+        }
+        header {
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        h1 {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            color: #1f2937; /* text-gray-800 */
+        }
+        .text-gray-500 {
+            color: #6b7280;
+        }
+        .grid {
+            display: grid;
+            gap: 1.5rem; /* gap-6 */
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .lg\:col-span-2 {
+                grid-column: span 2 / span 2;
+            }
+            .lg\:col-span-1 {
+                grid-column: span 1 / span 1;
+            }
+        }
+        /* Стили для контейнера карты */
+        #map {
+            height: 80vh; 
+            min-height: 500px; /* КРИТИЧНО: Гарантия минимальной высоты */
+            border-radius: 0.75rem; /* Закругленные углы */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
+            z-index: 1; 
+        }
+        /* Стили для боковой панели */
+        .sidebar {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        .placeholder {
+            background-color: #f3f4f6;
+            height: 16rem; /* h-64 */
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            border: 1px dashed #d1d5db;
+        }
+        .control-group {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .bg-blue-50 { background-color: #eff6ff; }
+        .text-blue-800 { color: #1e40af; }
+        .bg-green-50 { background-color: #ecfdf5; }
+        .text-green-800 { color: #065f46; }
+
+        /* Стили для элементов управления */
+        input[type="date"], input[type="range"] {
+            width: 100%;
+            margin-top: 0.25rem;
+            padding: 0.5rem;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.375rem;
+        }
+        
+        /* Стиль для всплывающего окна (Popup) на карте */
+        .leaflet-popup-content-wrapper {
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .leaflet-container a.leaflet-popup-close-button {
+            color: #ef4444; 
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Soil-Moisture Monitoring Dashboard</h1>
+        <p class="text-gray-500">Визуализация данных датчиков влажности в реальном времени.</p>
+    </header>
+
+    <div class="grid">
+
+        <!-- Основной блок - Карта -->
+        <div class="lg:col-span-2">
+            <div id="map"></div>
+        </div>
+
+        <!-- Боковая панель - Управление и 3D-визуализация -->
+        <div class="lg:col-span-1 sidebar">
+            <h2>Панель управления и 3D</h2>
+
+            <!-- Placeholder для 3D-визуализации -->
+            <div id="threeD-placeholder" class="placeholder">
+                <p class="text-gray-500 text-center">
+                    **3D-визуализация уровней здания**<br>
+                    (будет реализована на **Three.js** на следующем этапе)
+                </p>
+            </div>
+
+            <!-- Элементы управления для Этапа 5: Календарь и Ползунок -->
+            <div id="controls-placeholder" class="space-y-4">
+                <div class="control-group bg-blue-50">
+                    <p class="font-medium text-blue-800">Календарь выбора даты</p>
+                    <input type="date" id="date-picker" value="2025-11-23" 
+                           class="w-full mt-1 p-2 border border-blue-200 rounded-md" 
+                           onchange="refreshDashboard()">
+                </div>
+                <div class="control-group bg-green-50">
+                    <p class="font-medium text-green-800">Ползунок часа</p>
+                    <input type="range" min="0" max="23" value="12" id="hour-slider" 
+                           class="w-full mt-2" 
+                           oninput="document.getElementById('hourValue').innerText=this.value.padStart(2, '0') + ':00'; refreshDashboard()">
+                    <span id="hourValue" class="text-sm font-mono text-green-700 block text-right">12:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        ОБЯЗАТЕЛЬНО: Подключаем Leaflet JS перед нашим скриптом!
+        (Удален integrity для обхода локальных ошибок)
+    -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin=""></script>
+
+    <script>
+        // Глобальные переменные
+        let map;
+        const API_URL = 'http://localhost:3000/api/sensors'; 
+        let dataLoaded = false; 
+
+        /**
+         * Инициализирует карту Leaflet
+         */
+        function initializeMap() {
+            console.log("1. Попытка инициализации Leaflet...");
+            
+            if (typeof L === 'undefined') {
+                console.error("КРИТИЧЕСКАЯ ОШИБКА: Объект L (Leaflet) не загружен. Проверьте CDN.");
+                return;
+            }
+
+            const mapElement = document.getElementById('map');
+            if (!mapElement) {
+                console.error("КРИТИЧЕСКАЯ ОШИБКА: Элемент #map не найден в DOM.");
+                return;
+            }
+
+            // ИЗМЕНЕНИЕ: Устанавливаем координаты Астаны
+            const initialCoords = [51.169392, 71.449074]; 
+            const initialZoom = 14;
+            
+            if (map) {
+                map.remove(); 
+            }
+
+            map = L.map('map').setView(initialCoords, initialZoom);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+            }).addTo(map);
+
+            console.log("1.1. Карта Leaflet успешно инициализирована.");
+        }
+
+        /**
+         * Получает данные датчиков с бэкенда Node.js API
+         */
+        async function fetchSensorData(date, hour) {
+            let url = API_URL;
+            if (date && hour) {
+                url += `?date=${date}&hour=${hour}`;
+            }
+
+            try {
+                console.log(`2. Запрос данных по API: ${url}`);
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`Ошибка HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                dataLoaded = true;
+                return data;
+
+            } catch (error) {
+                console.error("2.1. Не удалось получить данные с сервера Node.js. Убедитесь, что 'server.js' запущен.", error);
+                
+                if (map) {
+                    L.popup()
+                        .setLatLng(map.getCenter())
+                        .setContent('<div style="font-weight: bold; color: #dc2626;">Ошибка подключения к серверу (http://localhost:3000).<br>Запустите "node server.js" и обновите страницу.</div>')
+                        .openOn(map);
+                }
+                
+                return []; 
+            }
+        }
+
+        /**
+         * Определяет стиль для маркера датчика
+         */
+        function getSensorStyle(sensorData) {
+            const { moisture, isEpicenter } = sensorData;
+
+            let color;
+            if (moisture < 40) {
+                color = '#22c55e'; // Green
+            } else if (moisture < 70) {
+                color = '#f59e0b'; // Yellow
+            } else {
+                color = '#ef4444'; // Red
+            }
+
+            if (isEpicenter) {
+                color = '#dc2626'; // Bright Red
+            }
+
+            const radius = 8 + (moisture / 20);
+
+            return {
+                radius: isEpicenter ? 18 : radius,
+                fillColor: color,
+                color: isEpicenter ? '#000000' : '#ffffff', 
+                weight: isEpicenter ? 2 : 1,
+                opacity: 1,
+                fillOpacity: 0.9
+            };
+        }
+
+        /**
+         * Создает HTML-контент для всплывающего окна
+         */
+        function createPopupContent(sensorData) {
+            const { sensorId, level, moisture, timestamp, isEpicenter } = sensorData;
+            const date = new Date(timestamp);
+
+            return `
+                <div style="padding: 0.5rem; font-family: monospace; font-size: 0.875rem;">
+                    <h3 style="font-size: 1rem; font-weight: bold; color: #1f2937; margin-bottom: 0.25rem;">${sensorId} (${level})</h3>
+                    <p style="margin-bottom: 0.25rem;">
+                        Влажность: <span style="font-weight: 600; font-size: 1.125rem; color: ${moisture > 70 ? '#dc2626' : '#10b981'};">${moisture}%</span>
+                    </p>
+                    <p style="color: #6b7280;">
+                        Время: ${date.toLocaleTimeString('ru-RU')} ${date.toLocaleDateString('ru-RU')}
+                    </p>
+                    ${isEpicenter ? '<div style="margin-top: 0.5rem; font-weight: bold; color: white; background-color: #dc2626; padding: 0.25rem 0.5rem; border-radius: 9999px; display: inline-block; font-size: 0.75rem;">❗ ЭПИЦЕНТР</div>' : ''}
+                </div>
+            `;
+        }
+
+        /**
+         * Отображает все датчики на карте
+         */
+        function renderSensors(sensors) {
+            if (!map) {
+                 console.error("3. Ошибка рендеринга: Карта 'map' не инициализирована.");
+                 return;
+            }
+
+            // Удаляем старые маркеры
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.CircleMarker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            console.log(`3.1. Отображение ${sensors.length} датчиков на карте.`);
+            
+            sensors.forEach(sensor => {
+                const style = getSensorStyle(sensor);
+
+                const marker = L.circleMarker([sensor.lat, sensor.lng], style)
+                    .addTo(map)
+                    .bindPopup(createPopupContent(sensor), { closeButton: false, autoPan: false });
+
+                marker.on('mouseover', function (e) {
+                    this.openPopup();
+                });
+                marker.on('mouseout', function (e) {
+                    this.closePopup();
+                });
+            });
+        }
+
+        /**
+         * Главная функция для обновления дашборда
+         */
+        async function refreshDashboard() {
+            console.log("4. Обновление дашборда...");
+            
+            const dateInput = document.getElementById('date-picker');
+            const hourInput = document.getElementById('hour-slider');
+
+            const date = dateInput ? dateInput.value : '';
+            const hour = hourInput ? hourInput.value.padStart(2, '0') : '';
+            
+            // Запрашиваем данные с нашего Node.js сервера
+            const sensors = await fetchSensorData(date, hour);
+            renderSensors(sensors);
+        }
+
+        // Автоматический запуск после того, как DOM и скрипты будут готовы
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeMap();
+            
+            // Даем Leaflet немного времени на загрузку тайлов
+            setTimeout(() => {
+                 refreshDashboard(); 
+                 // Это критично для исправления проблем с отображением карты,
+                 // когда она инициализируется до того, как контейнер получил размеры
+                 if (map) map.invalidateSize(); 
+            }, 100); 
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+[
+    { "sensorId": "S-001", "houseId": "H-001", "level": "L-1", "X": 10, "Y": 20, "lat": 51.122812, "lng": 71.427102, "moisture": 45, "timestamp": "2025-11-23T12:00:00Z", "isEpicenter": false },
+    { "sensorId": "S-002", "houseId": "H-001", "level": "L-2", "X": 30, "Y": 15, "lat": 51.122812, "lng": 71.427102, "moisture": 60, "timestamp": "2025-11-23T12:05:00Z", "isEpicenter": false },
+    { "sensorId": "S-003", "houseId": "H-001", "level": "L-3", "X": 5, "Y": 40, "lat": 51.122812, "lng": 71.427102, "moisture": 88, "timestamp": "2025-11-23T12:10:00Z", "isEpicenter": true },
+    { "sensorId": "S-004", "houseId": "H-001", "level": "L-4", "X": 50, "Y": 25, "lat": 51.122812, "lng": 71.427102, "moisture": 50, "timestamp": "2025-11-23T12:15:00Z", "isEpicenter": false },
+    { "sensorId": "S-005", "houseId": "H-001", "level": "L-5", "X": 45, "Y": 10, "lat": 51.122812, "lng": 71.427102, "moisture": 30, "timestamp": "2025-11-23T12:20:00Z", "isEpicenter": false },
+    { "sensorId": "S-006", "houseId": "H-001", "level": "L-6", "X": 25, "Y": 35, "lat": 51.122812, "lng": 71.427102, "moisture": 75, "timestamp": "2025-11-23T12:25:00Z", "isEpicenter": false },
+    { "sensorId": "S-007", "houseId": "H-001", "level": "L-1", "X": 10, "Y": 20, "lat": 51.12240451023537, "lng": 71.4294916079563, "moisture": 45, "timestamp": "2025-11-23T12:00:00Z", "isEpicenter": false },
+    { "sensorId": "S-008", "houseId": "H-001", "level": "L-2", "X": 30, "Y": 15, "lat": 51.12240451023537, "lng": 71.4294916079563, "moisture": 60, "timestamp": "2025-11-23T12:05:00Z", "isEpicenter": false },
+    { "sensorId": "S-009", "houseId": "H-001", "level": "L-3", "X": 5, "Y": 40, "lat": 51.12240451023537, "lng": 71.4294916079563, "moisture": 88, "timestamp": "2025-11-23T12:10:00Z", "isEpicenter": true },
+    { "sensorId": "S-010", "houseId": "H-001", "level": "L-4", "X": 50, "Y": 25, "lat": 51.12240451023537, "lng": 71.4294916079563, "moisture": 50, "timestamp": "2025-11-23T12:15:00Z", "isEpicenter": false },
+    { "sensorId": "S-011", "houseId": "H-001", "level": "L-5", "X": 45, "Y": 10, "lat": 51.12240451023537, "lng": 71.4294916079563, "moisture": 30, "timestamp": "2025-11-23T12:20:00Z", "isEpicenter": false },
+    { "sensorId": "S-012", "houseId": "H-001", "level": "L-6", "X": 25, "Y": 35, "lat": 51.12240451023537, "lng": 71.42949160795632, "moisture": 75, "timestamp": "2025-11-23T12:25:00Z", "isEpicenter": false },
+    { "sensorId": "S-013", "houseId": "H-001", "level": "L-1", "X": 10, "Y": 20, "lat": 51.120962, "lng": 71.428909, "moisture": 45, "timestamp": "2025-11-23T12:00:00Z", "isEpicenter": false },
+    { "sensorId": "S-014", "houseId": "H-001", "level": "L-2", "X": 30, "Y": 15, "lat": 51.120962, "lng": 71.428909, "moisture": 60, "timestamp": "2025-11-23T12:05:00Z", "isEpicenter": false },
+    { "sensorId": "S-015", "houseId": "H-001", "level": "L-3", "X": 5, "Y": 40, "lat": 51.120962, "lng": 71.428909, "moisture": 88, "timestamp": "2025-11-23T12:10:00Z", "isEpicenter": true },
+    { "sensorId": "S-016", "houseId": "H-001", "level": "L-4", "X": 50, "Y": 25, "lat": 51.120962, "lng": 71.428909, "moisture": 50, "timestamp": "2025-11-23T12:15:00Z", "isEpicenter": false },
+    { "sensorId": "S-017", "houseId": "H-001", "level": "L-5", "X": 45, "Y": 10, "lat": 51.120962, "lng": 71.428909, "moisture": 30, "timestamp": "2025-11-23T12:20:00Z", "isEpicenter": false },
+    { "sensorId": "S-018", "houseId": "H-001", "level": "L-6", "X": 25, "Y": 35, "lat": 51.120962, "lng": 71.428909, "moisture": 75, "timestamp": "2025-11-23T12:25:00Z", "isEpicenter": false },
+    { "sensorId": "S-019", "houseId": "H-001", "level": "L-1", "X": 10, "Y": 20, "lat": 51.121377, "lng": 71.426496, "moisture": 45, "timestamp": "2025-11-23T12:00:00Z", "isEpicenter": false },
+    { "sensorId": "S-020", "houseId": "H-001", "level": "L-2", "X": 30, "Y": 15, "lat": 51.121377, "lng": 71.426496, "moisture": 60, "timestamp": "2025-11-23T12:05:00Z", "isEpicenter": false },
+    { "sensorId": "S-021", "houseId": "H-001", "level": "L-3", "X": 5, "Y": 40, "lat": 51.121377, "lng": 71.426496, "moisture": 88, "timestamp": "2025-11-23T12:10:00Z", "isEpicenter": true },
+    { "sensorId": "S-022", "houseId": "H-001", "level": "L-4", "X": 50, "Y": 25, "lat": 51.121377, "lng": 71.426496, "moisture": 50, "timestamp": "2025-11-23T12:15:00Z", "isEpicenter": false },
+    { "sensorId": "S-023", "houseId": "H-001", "level": "L-5", "X": 45, "Y": 10, "lat": 51.121377, "lng": 71.426496, "moisture": 30, "timestamp": "2025-11-23T12:20:00Z", "isEpicenter": false },
+    { "sensorId": "S-024", "houseId": "H-001", "level": "L-6", "X": 25, "Y": 35, "lat": 51.121377, "lng": 71.426496, "moisture": 75, "timestamp": "2025-11-23T12:25:00Z", "isEpicenter": false },
+    
+    { "sensorId": "S-555", "houseId": "H-002", "level": "L-1", "X": 10, "Y": 10, "lat": 51.121748, "lng": 71.425540, "moisture": 95, "timestamp": "2025-11-23T12:30:00Z", "isEpicenter": true }
+  ]

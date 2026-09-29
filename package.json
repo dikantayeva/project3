@@ -1,0 +1,22 @@
+{
+  "name": "soil-monitoring-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Система мониторинга влажности грунта на базе Node.js и PostgreSQL",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev:server": "node --watch server/index.js",
+    "dev:client": "npm run dev --prefix client",
+    "build:client": "npm run build --prefix client",
+    "test:client": "npm test --prefix client",
+    "install:all": "npm install && npm install --prefix client",
+    "import": "node scripts/import_csv_to_db.js"
+  },
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "dotenv": "^17.2.3",
+    "express": "^4.18.2",
+    "pg": "^8.11.3"
+  }
+}
